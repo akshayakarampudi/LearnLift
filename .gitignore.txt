@@ -1,0 +1,31 @@
+# Python
+__pycache__/
+*.py[cod]
+
+# Virtual environment
+.venv/
+venv/
+env/
+
+# PyCharm
+.idea/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Generated plots
+static/plots/*.png
+
+# Dataset
+*.csv
+
+# Model files
+*.pkl
+*.joblib
+
+# Python cache
+.pytest_cache/
+
+# OS
+.DS_Store
+Thumbs.db

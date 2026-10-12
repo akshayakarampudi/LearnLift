@@ -1,0 +1,311 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Prediction Result | LearnLift</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <style>
+        .result-container {
+            max-width: 1100px;
+            margin: 35px auto;
+            padding: 25px;
+        }
+
+        .result-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .result-header h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .result-header p {
+            color: #64748b;
+            font-size: 16px;
+        }
+
+        .result-cards {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 22px;
+            margin-bottom: 35px;
+        }
+
+        .result-card {
+            background: white;
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.07);
+            border: 1px solid #e5eaf1;
+        }
+
+        .result-icon {
+            font-size: 30px;
+            margin-bottom: 15px;
+        }
+
+        .result-card h3 {
+            color: #475569;
+            font-size: 16px;
+            margin-bottom: 12px;
+        }
+
+        .result-value {
+            font-size: 27px;
+            font-weight: 700;
+            color: #2563eb;
+            overflow-wrap: anywhere;
+        }
+
+        .result-card p {
+            margin-top: 10px;
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        .analysis-card {
+            background: white;
+            padding: 28px;
+            border-radius: 16px;
+            border: 1px solid #e5eaf1;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.06);
+            margin-bottom: 25px;
+        }
+
+        .analysis-label {
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: #2563eb;
+            margin-bottom: 10px;
+        }
+
+        .analysis-card h2 {
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+
+        .analysis-description {
+            color: #64748b;
+            margin-bottom: 25px;
+        }
+
+        .probability-row {
+            margin-bottom: 23px;
+        }
+
+        .probability-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 9px;
+            font-weight: 600;
+            color: #334155;
+        }
+
+        .probability-track {
+            width: 100%;
+            height: 13px;
+            background: #e9eef5;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .probability-fill {
+            height: 100%;
+            width: 0;
+            background: #2563eb;
+            border-radius: 20px;
+        }
+
+        .probability-fill.distinction {
+            background: #8b5cf6;
+        }
+
+        .probability-fill.fail {
+            background: #ef4444;
+        }
+
+        .probability-fill.pass {
+            background: #16a34a;
+        }
+
+        .probability-fill.withdrawn {
+            background: #f59e0b;
+        }
+
+        .result-note {
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            border-radius: 12px;
+            padding: 17px;
+            color: #1e40af;
+            line-height: 1.6;
+            margin-top: 20px;
+        }
+
+        .result-actions {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .result-button {
+            display: inline-block;
+            text-decoration: none;
+            padding: 13px 22px;
+            border-radius: 9px;
+            background: #2563eb;
+            color: white;
+            font-weight: 600;
+        }
+
+        .result-button.secondary {
+            background: #e2e8f0;
+            color: #1e293b;
+        }
+
+        @media (max-width: 768px) {
+            .result-cards {
+                grid-template-columns: 1fr;
+            }
+
+            .result-container {
+                padding: 15px;
+            }
+
+            .result-header h1 {
+                font-size: 26px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="result-container">
+
+        <header class="result-header">
+            <h1>✨ Student Prediction Result</h1>
+            <p>
+                LearnLift analyzed the student's academic and online learning
+                information.
+            </p>
+        </header>
+
+        <section class="result-cards">
+
+            <div class="result-card">
+                <div class="result-icon">🎯</div>
+                <h3>Predicted Performance</h3>
+                <div class="result-value">{{ prediction }}</div>
+                <p>Predicted student academic outcome</p>
+            </div>
+
+            <div class="result-card">
+                <div class="result-icon">📊</div>
+                <h3>Prediction Confidence</h3>
+                <div class="result-value">{{ confidence }}%</div>
+                <p>Model confidence for the predicted class</p>
+            </div>
+
+            <div class="result-card">
+                <div class="result-icon">🛡️</div>
+                <h3>Dropout Risk</h3>
+                <div class="result-value">{{ dropout_risk }}</div>
+                <p>Estimated from the predicted outcome</p>
+            </div>
+
+        </section>
+
+        <section class="analysis-card">
+
+            <div class="analysis-label">MODEL ANALYSIS</div>
+
+            <h2>Student Prediction Probability</h2>
+
+            <p class="analysis-description">
+                Probability distribution generated by the trained model
+                for this student's prediction.
+            </p>
+
+            {% if probabilities %}
+
+                {% for label, probability in probabilities.items() %}
+
+                    {% set class_name = label|lower %}
+
+                    <div class="probability-row">
+
+                        <div class="probability-info">
+                            <span>
+                                {% if class_name == 'distinction' %}
+                                    🏆 Distinction
+                                {% elif class_name == 'fail' %}
+                                    📉 Fail
+                                {% elif class_name == 'pass' %}
+                                    ✅ Pass
+                                {% elif class_name == 'withdrawn' %}
+                                    ⚠️ Withdrawn
+                                {% else %}
+                                    {{ label }}
+                                {% endif %}
+                            </span>
+
+                            <span>{{ "%.1f"|format(probability|float) }}%</span>
+                        </div>
+
+                        <div class="probability-track">
+                            <div
+                                class="probability-fill {{ class_name }}"
+                                style="width: {{ [100, [0, probability|float]|max]|min }}%;">
+                            </div>
+                        </div>
+
+                    </div>
+
+                {% endfor %}
+
+            {% else %}
+
+                <p>
+                    Prediction probabilities are not available.
+                    Please check the probability calculation in app.py.
+                </p>
+
+            {% endif %}
+
+            <div class="result-note">
+                💡 <strong>How to read:</strong>
+                A higher probability means the model assigns greater
+                likelihood to that outcome. This is a model estimate,
+                not a guarantee of the student's actual result.
+            </div>
+
+        </section>
+
+        <div class="result-actions">
+            <a href="{{ url_for('prediction_page') }}"
+               class="result-button">
+                Predict Another Student
+            </a>
+
+            <a href="{{ url_for('dashboard') }}"
+               class="result-button secondary">
+                Back to Dashboard
+            </a>
+        </div>
+
+    </div>
+
+</body>
+</html>

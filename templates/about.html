@@ -1,0 +1,340 @@
+ 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About LearnLift</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f7fc;
+            color: #243047;
+            line-height: 1.6;
+        }
+
+        nav {
+            background: #172554;
+            padding: 18px 7%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .logo {
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-left: 18px;
+            font-size: 14px;
+        }
+
+        nav a:hover {
+            color: #93c5fd;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #1e3a8a, #4f46e5);
+            color: white;
+            padding: 55px 20px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 36px;
+            margin-bottom: 12px;
+        }
+
+        .hero p {
+            max-width: 750px;
+            margin: auto;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 35px auto;
+            padding: 0 20px;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #172554;
+            font-size: 28px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 22px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 14px;
+            box-shadow: 0 4px 15px #17255412;
+            border: 1px solid #e2e8f0;
+        }
+
+        .card h2 {
+            color: #3730a3;
+            font-size: 20px;
+            margin-bottom: 12px;
+        }
+
+        .card p, .card li {
+            color: #526078;
+            font-size: 15px;
+        }
+
+        .technologies {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .tag {
+            background: #e0e7ff;
+            color: #3730a3;
+            padding: 8px 13px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .workflow {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 15px;
+        }
+
+        .step {
+            background: white;
+            padding: 20px 12px;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid #dbeafe;
+        }
+
+        .number {
+            background: #4f46e5;
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            margin: 0 auto 10px;
+            font-weight: bold;
+        }
+
+        .step p {
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        footer {
+            background: #172554;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 45px;
+        }
+
+        @media (max-width: 700px) {
+            nav {
+                flex-direction: column;
+            }
+
+            nav a {
+                display: inline-block;
+                margin: 5px;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .workflow {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .hero h1 {
+                font-size: 28px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<nav>
+    <div class="logo">📚 LearnLift</div>
+    <div>
+        <a href="{{ url_for('home') }}">Home</a>
+        <a href="{{ url_for('dashboard') }}">Dashboard</a>
+        <a href="{{ url_for('prediction_page') }}">Prediction</a>
+        <a href="{{ url_for('behaviour') }}">Behaviour</a>
+        <a href="{{ url_for('model_page') }}">Model</a>
+        <a href="{{ url_for('about') }}">About</a>
+    </div>
+</nav>
+
+<header class="hero">
+    <h1>About LearnLift</h1>
+    <p>
+        An AI-Based Student Performance Prediction and
+        Behaviour Analysis System
+    </p>
+</header>
+
+<main class="container">
+
+    <h2 class="section-title">About Our Project</h2>
+
+    <div class="grid">
+
+        <section class="card">
+            <h2>🎯 Problem Statement</h2>
+            <p>
+                Students may struggle academically without being
+                identified early. LearnLift analyzes student data
+                to predict academic outcomes and help identify
+                students who may need additional support.
+            </p>
+        </section>
+
+        <section class="card">
+            <h2>🚀 Project Objective</h2>
+            <p>
+                The objective is to develop a machine learning
+                system that predicts student results and analyzes
+                learning behaviour using available student
+                information and activity data.
+            </p>
+        </section>
+
+        <section class="card">
+            <h2>🤖 Machine Learning Algorithms</h2>
+            <p>
+                <strong>Random Forest Classifier:</strong>
+                Predicts student outcomes such as Pass, Fail,
+                Distinction, and Withdrawn.
+            </p>
+            <p style="margin-top: 12px;">
+                <strong>K-Means Clustering:</strong>
+                Groups students according to learning activity
+                patterns for behaviour analysis.
+            </p>
+        </section>
+
+        <section class="card">
+            <h2>📊 Dataset</h2>
+            <p>
+                LearnLift uses the Open University Learning
+                Analytics Dataset (OULAD), which contains student
+                information, assessment records, and online
+                learning activity data.
+            </p>
+        </section>
+
+        <section class="card">
+            <h2>💻 Technologies Used</h2>
+            <p>Tools and technologies used in the project:</p>
+            <div class="technologies">
+                <span class="tag">Python</span>
+                <span class="tag">Pandas</span>
+                <span class="tag">Scikit-learn</span>
+                <span class="tag">Random Forest</span>
+                <span class="tag">K-Means</span>
+                <span class="tag">Flask</span>
+                <span class="tag">HTML</span>
+                <span class="tag">CSS</span>
+                <span class="tag">JavaScript</span>
+                <span class="tag">Joblib</span>
+            </div>
+        </section>
+
+        <section class="card">
+            <h2>📈 Expected Outcome</h2>
+            <p>
+                The system provides student outcome predictions,
+                model performance information, and behaviour
+                groups through a web interface. These results
+                can support early identification of students
+                who may need academic assistance.
+            </p>
+        </section>
+
+    </div>
+
+    <h2 class="section-title" style="margin-top: 45px;">
+        Project Workflow
+    </h2>
+
+    <div class="workflow">
+        <div class="step">
+            <div class="number">1</div>
+            <p>Dataset Collection</p>
+        </div>
+
+        <div class="step">
+            <div class="number">2</div>
+            <p>Data Preprocessing</p>
+        </div>
+
+        <div class="step">
+            <div class="number">3</div>
+            <p>Feature Preparation</p>
+        </div>
+
+        <div class="step">
+            <div class="number">4</div>
+            <p>Model Training</p>
+        </div>
+
+        <div class="step">
+            <div class="number">5</div>
+            <p>Model Evaluation</p>
+        </div>
+
+        <div class="step">
+            <div class="number">6</div>
+            <p>Behaviour Clustering</p>
+        </div>
+
+        <div class="step">
+            <div class="number">7</div>
+            <p>Flask Web Application</p>
+        </div>
+
+        <div class="step">
+            <div class="number">8</div>
+            <p>Student Prediction</p>
+        </div>
+    </div>
+
+</main>
+
+<footer>
+    <p>LearnLift | AI-Based Student Performance Analysis</p>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,495 @@
+ <!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Prediction | LearnLift</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<!-- =====================================================
+     NAVBAR
+     ===================================================== -->
+
+<nav class="navbar">
+
+    <div class="nav-logo">
+        🎓 <span>LearnLift</span>
+    </div>
+
+    <div class="nav-links">
+
+        <a href="{{ url_for('home') }}">
+            Home
+        </a>
+
+        <a href="{{ url_for('prediction_page') }}"
+           class="active">
+            Prediction
+        </a>
+
+        <a href="{{ url_for('model_page') }}">
+            Model
+        </a>
+
+        <a href="{{ url_for('about') }}">
+            About
+        </a>
+
+    </div>
+
+</nav>
+
+
+<!-- =====================================================
+     PREDICTION PAGE
+     ===================================================== -->
+
+<main class="prediction-container">
+
+    <!-- HEADER -->
+
+    <section class="prediction-header">
+
+        <div class="prediction-icon">
+            🤖
+        </div>
+
+        <h1>
+            Student Performance Prediction
+        </h1>
+
+        <p>
+            Enter the student's academic and learning activity
+            information to predict the final result.
+        </p>
+
+    </section>
+
+
+    <!-- =================================================
+         ERROR MESSAGE
+         ================================================= -->
+
+    {% if error %}
+
+    <div class="prediction-error">
+        <strong>Prediction Error:</strong>
+        {{ error }}
+    </div>
+
+    {% endif %}
+
+
+    <!-- =================================================
+         FORM
+         ================================================= -->
+
+    <form action="{{ url_for('predict') }}"
+          method="POST">
+
+
+        <!-- =============================================
+             STUDENT IDENTIFICATION
+             ============================================= -->
+
+        <section class="form-section student-id-section">
+
+            <h2>
+                🆔 Student Identification
+            </h2>
+
+            <div class="form-grid">
+
+                <div class="form-group">
+
+                    <label for="student_id">
+                        Student ID
+                    </label>
+
+                    <input
+                        type="number"
+                        id="student_id"
+                        name="student_id"
+                        placeholder="Enter OULAD Student ID"
+                        required
+                    >
+
+                    <span class="form-help">
+                        Enter the student's ID from the OULAD dataset.
+                    </span>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =============================================
+             COURSE INFORMATION
+             ============================================= -->
+
+        <section class="form-section">
+
+            <h2>
+                📚 Course Information
+            </h2>
+
+            <div class="form-grid">
+
+                <!-- CODE MODULE -->
+
+                <div class="form-group">
+
+                    <label for="code_module">
+                        Code Module
+                    </label>
+
+                    <select
+                        id="code_module"
+                        name="code_module"
+                        required
+                    >
+
+                        <option value="AAA">AAA</option>
+                        <option value="BBB">BBB</option>
+                        <option value="CCC">CCC</option>
+                        <option value="DDD">DDD</option>
+                        <option value="EEE">EEE</option>
+                        <option value="FFF">FFF</option>
+                        <option value="GGG">GGG</option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- CODE PRESENTATION -->
+
+                <div class="form-group">
+
+                    <label for="code_presentation">
+                        Code Presentation
+                    </label>
+
+                    <select
+                        id="code_presentation"
+                        name="code_presentation"
+                        required
+                    >
+
+                        <option value="2013J">
+                            2013J
+                        </option>
+
+                        <option value="2013B">
+                            2013B
+                        </option>
+
+                        <option value="2014J">
+                            2014J
+                        </option>
+
+                        <option value="2014B">
+                            2014B
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =============================================
+             STUDENT INFORMATION
+             ============================================= -->
+
+        <section class="form-section">
+
+            <h2>
+                🧑‍🎓 Student Information
+            </h2>
+
+            <div class="form-grid">
+
+                <!-- GENDER -->
+
+                <div class="form-group">
+
+                    <label for="gender">
+                        Gender
+                    </label>
+
+                    <select
+                        id="gender"
+                        name="gender"
+                        required
+                    >
+
+                        <option value="M">
+                            Male
+                        </option>
+
+                        <option value="F">
+                            Female
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- PREVIOUS ATTEMPTS -->
+
+                <div class="form-group">
+
+                    <label for="num_of_prev_attempts">
+                        Previous Attempts
+                    </label>
+
+                    <input
+                        type="number"
+                        id="num_of_prev_attempts"
+                        name="num_of_prev_attempts"
+                        min="0"
+                        value="0"
+                        required
+                    >
+
+                    <span class="form-help">
+                        Number of previous attempts for the course.
+                    </span>
+
+                </div>
+
+
+                <!-- STUDIED CREDITS -->
+
+                <div class="form-group">
+
+                    <label for="studied_credits">
+                        Studied Credits
+                    </label>
+
+                    <input
+                        type="number"
+                        id="studied_credits"
+                        name="studied_credits"
+                        min="0"
+                        value="60"
+                        required
+                    >
+
+                    <span class="form-help">
+                        Total number of credits studied.
+                    </span>
+
+                </div>
+
+
+                <!-- DISABILITY -->
+
+                <div class="form-group">
+
+                    <label for="disability">
+                        Disability
+                    </label>
+
+                    <select
+                        id="disability"
+                        name="disability"
+                        required
+                    >
+
+                        <option value="N">
+                            No
+                        </option>
+
+                        <option value="Y">
+                            Yes
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =============================================
+             ASSESSMENT INFORMATION
+             ============================================= -->
+
+        <section class="form-section">
+
+            <h2>
+                📝 Assessment Information
+            </h2>
+
+            <div class="form-grid">
+
+                <!-- AVERAGE SCORE -->
+
+                <div class="form-group">
+
+                    <label for="assessment_avg_score">
+                        Average Assessment Score
+                    </label>
+
+                    <input
+                        type="number"
+                        id="assessment_avg_score"
+                        name="assessment_avg_score"
+                        min="0"
+                        max="100"
+                        step="0.01"
+                        placeholder="Example: 75"
+                        required
+                    >
+
+                    <span class="form-help">
+                        Average score across completed assessments.
+                    </span>
+
+                </div>
+
+
+                <!-- ASSESSMENT COUNT -->
+
+                <div class="form-group">
+
+                    <label for="assessment_count">
+                        Assessment Count
+                    </label>
+
+                    <input
+                        type="number"
+                        id="assessment_count"
+                        name="assessment_count"
+                        min="0"
+                        value="0"
+                        required
+                    >
+
+                    <span class="form-help">
+                        Number of assessments completed.
+                    </span>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =============================================
+             ONLINE LEARNING ACTIVITY
+             ============================================= -->
+
+        <section class="form-section">
+
+            <h2>
+                💻 Online Learning Activity
+            </h2>
+
+            <div class="form-grid">
+
+                <!-- TOTAL CLICKS -->
+
+                <div class="form-group">
+
+                    <label for="total_clicks">
+                        Total Clicks
+                    </label>
+
+                    <input
+                        type="number"
+                        id="total_clicks"
+                        name="total_clicks"
+                        min="0"
+                        value="0"
+                        required
+                    >
+
+                    <span class="form-help">
+                        Total interactions with online learning materials.
+                    </span>
+
+                </div>
+
+
+                <!-- ACTIVE DAYS -->
+
+                <div class="form-group">
+
+                    <label for="active_days">
+                        Active Days
+                    </label>
+
+                    <input
+                        type="number"
+                        id="active_days"
+                        name="active_days"
+                        min="0"
+                        value="0"
+                        required
+                    >
+
+                    <span class="form-help">
+                        Number of days the student was active online.
+                    </span>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =============================================
+             PREDICT BUTTON
+             ============================================= -->
+
+        <div class="prediction-submit">
+
+            <button
+                type="submit"
+                class="predict-button"
+            >
+                🔮 Predict Student Performance
+            </button>
+
+        </div>
+
+    </form>
+
+</main>
+
+
+<!-- =====================================================
+     FOOTER
+     ===================================================== -->
+
+<footer class="result-footer">
+
+    <p>
+        LearnLift — AI-Based Student Performance and
+        Dropout Prediction System
+    </p>
+
+</footer>
+
+</body>
+</html>

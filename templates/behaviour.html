@@ -1,0 +1,490 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Behaviour | LearnLift</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+    <!-- Chart.js library -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        .behaviour-page {
+            max-width: 1200px;
+            margin: auto;
+            padding: 40px 24px;
+        }
+
+        .behaviour-header {
+            margin-bottom: 28px;
+        }
+
+        .behaviour-header h1 {
+            font-size: clamp(26px, 4vw, 36px);
+            color: #252044;
+            margin-bottom: 10px;
+        }
+
+        .behaviour-header p {
+            color: #69708a;
+            max-width: 780px;
+            line-height: 1.8;
+        }
+
+        .behaviour-summary {
+            padding: 30px;
+            margin-bottom: 32px;
+            color: white;
+            border-radius: 18px;
+            background: linear-gradient(135deg, #6d4aff, #817cf5);
+            box-shadow: 0 12px 30px rgba(109, 74, 255, .18);
+        }
+
+        .behaviour-summary p {
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        .behaviour-summary h2 {
+            font-size: 38px;
+            margin-bottom: 8px;
+        }
+
+        .behaviour-summary small {
+            opacity: .9;
+        }
+
+        .behaviour-section-title {
+            color: #292347;
+            font-size: 23px;
+            margin-bottom: 20px;
+        }
+
+        .behaviour-stats {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 22px;
+            margin-bottom: 38px;
+        }
+
+        .behaviour-card {
+            background: white;
+            padding: 25px;
+            border: 1px solid #e8e7f3;
+            border-top: 4px solid #6d4aff;
+            border-radius: 16px;
+            box-shadow: 0 10px 28px rgba(39, 31, 87, .06);
+        }
+
+        .behaviour-card.moderate {
+            border-top-color: #efa72e;
+        }
+
+        .behaviour-card.low {
+            border-top-color: #e56868;
+        }
+
+        .card-label {
+            color: #69708a;
+            font-size: 14px;
+            margin-bottom: 14px;
+        }
+
+        .card-number {
+            color: #6d4aff;
+            font-size: 32px;
+            font-weight: 800;
+            margin-bottom: 12px;
+        }
+
+        .moderate .card-number {
+            color: #d38a14;
+        }
+
+        .low .card-number {
+            color: #d64e4e;
+        }
+
+        .card-description {
+            color: #77758d;
+            font-size: 13px;
+            line-height: 1.7;
+        }
+
+        /* CHARTS */
+        .behaviour-chart-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+
+        .behaviour-chart-card {
+            background: white;
+            border: 1px solid #e8e7f3;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 10px 28px rgba(39, 31, 87, .05);
+            min-width: 0;
+        }
+
+        .behaviour-chart-card h3 {
+            color: #292347;
+            margin-bottom: 8px;
+            font-size: 19px;
+        }
+
+        .behaviour-chart-card p {
+            color: #69708a;
+            font-size: 13px;
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 300px;
+            width: 100%;
+        }
+
+        .behaviour-info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 22px;
+            margin-bottom: 25px;
+        }
+
+        .behaviour-info {
+            background: white;
+            border: 1px solid #e8e7f3;
+            border-radius: 16px;
+            padding: 26px;
+            box-shadow: 0 10px 28px rgba(39, 31, 87, .05);
+        }
+
+        .behaviour-info h3 {
+            color: #292347;
+            font-size: 19px;
+            margin-bottom: 14px;
+        }
+
+        .behaviour-info p,
+        .behaviour-info li {
+            color: #69708a;
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        .behaviour-info ul {
+            padding-left: 20px;
+            margin-top: 12px;
+        }
+
+        .behaviour-info li {
+            margin-bottom: 8px;
+        }
+
+        .behaviour-note {
+            padding: 20px;
+            margin-bottom: 25px;
+            border-radius: 12px;
+            background: #eee9ff;
+            color: #514486;
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        .behaviour-footer {
+            background: #0d1830;
+            color: #cbd2e5;
+            text-align: center;
+            padding: 22px;
+            font-size: 13px;
+            border-radius: 8px;
+        }
+
+        @media (max-width: 800px) {
+            .behaviour-page {
+                padding: 28px 16px;
+            }
+
+            .behaviour-stats,
+            .behaviour-info-grid,
+            .behaviour-chart-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<nav class="navbar">
+    <a class="nav-logo" href="{{ url_for('home') }}">LearnLift</a>
+
+    <div class="nav-links">
+        <a href="{{ url_for('home') }}">Home</a>
+        <a href="{{ url_for('dashboard') }}">Dashboard</a>
+        <a href="{{ url_for('prediction_page') }}">Prediction</a>
+        <a href="{{ url_for('behaviour') }}" class="active">Behaviour</a>
+        <a href="{{ url_for('model_page') }}">Model</a>
+        <a href="{{ url_for('about') }}">About</a>
+    </div>
+</nav>
+
+<main class="behaviour-page">
+
+    <header class="behaviour-header">
+        <h1>Student Behaviour Analysis</h1>
+        <p>
+            LearnLift analyses recorded student learning activity
+            using K-Means clustering to identify three engagement
+            patterns and explore student activity.
+        </p>
+    </header>
+
+    <!-- TOTAL STUDENTS -->
+    <section class="behaviour-summary">
+        <p>Total Students Analysed</p>
+        <h2>{{ total_students | default(0) }}</h2>
+        <small>Students included in the clustering results</small>
+    </section>
+
+    <!-- ENGAGEMENT CARDS -->
+    <h2 class="behaviour-section-title">
+        Student Engagement Groups
+    </h2>
+
+    <section class="behaviour-stats">
+
+        <article class="behaviour-card">
+            <p class="card-label">Highly Active Learners</p>
+            <div class="card-number">
+                {{ high_count | default(0) }}
+            </div>
+            <p class="card-description">
+                Students with higher recorded engagement in learning activities.
+            </p>
+        </article>
+
+        <article class="behaviour-card moderate">
+            <p class="card-label">Moderately Active Learners</p>
+            <div class="card-number">
+                {{ moderate_count | default(0) }}
+            </div>
+            <p class="card-description">
+                Students with a moderate level of recorded learning activity.
+            </p>
+        </article>
+
+        <article class="behaviour-card low">
+            <p class="card-label">Low Activity Learners</p>
+            <div class="card-number">
+                {{ low_count | default(0) }}
+            </div>
+            <p class="card-description">
+                Students with lower recorded activity who may benefit from support.
+            </p>
+        </article>
+
+    </section>
+
+    <!-- CHARTS -->
+    <h2 class="behaviour-section-title">
+        Student Engagement Visualisation
+    </h2>
+
+    <section class="behaviour-chart-grid">
+
+        <article class="behaviour-chart-card">
+            <h3>Engagement Distribution</h3>
+            <p>
+                The proportion of students in each engagement group.
+                Hover over a section to view its count.
+            </p>
+            <div class="chart-container">
+                <canvas id="engagementDoughnut"
+                        aria-label="Doughnut chart of student engagement groups"></canvas>
+            </div>
+        </article>
+
+        <article class="behaviour-chart-card">
+            <h3>Student Group Comparison</h3>
+            <p>
+                Compare the number of students classified in each group.
+            </p>
+            <div class="chart-container">
+                <canvas id="engagementBar"
+                        aria-label="Bar chart comparing student engagement groups"></canvas>
+            </div>
+        </article>
+
+    </section>
+
+    <!-- ANALYSIS DETAILS -->
+    <h2 class="behaviour-section-title">
+        How Student Behaviour Is Analysed
+    </h2>
+
+    <section class="behaviour-info-grid">
+
+        <article class="behaviour-info">
+            <h3>Learning Activity Features</h3>
+            <p>
+                The clustering model uses numerical features describing
+                recorded learning activity.
+            </p>
+            <ul>
+                <li><strong>Assessment Average:</strong> Average recorded assessment score.</li>
+                <li><strong>Assessment Count:</strong> Number of assessment records.</li>
+                <li><strong>Total Clicks:</strong> Interactions with online learning materials.</li>
+                <li><strong>Active Days:</strong> Number of days with recorded activity.</li>
+            </ul>
+        </article>
+
+        <article class="behaviour-info">
+            <h3>Clustering Method</h3>
+            <p>
+                K-Means clustering groups students according to similarities
+                in the selected activity features.
+            </p>
+            <ul>
+                <li>Similar activity patterns are grouped together.</li>
+                <li>The groups summarise recorded engagement patterns.</li>
+                <li>The results may help identify areas where support could be useful.</li>
+                <li>Group membership does not determine a student's ability or future success.</li>
+            </ul>
+        </article>
+
+    </section>
+
+    <section class="behaviour-note">
+        <strong>Important note:</strong>
+        These groups describe patterns in the available dataset.
+        They are not a diagnosis or a guarantee of academic performance.
+        The charts use the group counts supplied by your Flask application.
+    </section>
+
+    <footer class="behaviour-footer">
+        LearnLift — AI-Based Student Performance and Behaviour Analysis
+    </footer>
+
+</main>
+
+<script>
+    // Counts come from the Flask clustering results.
+    const highCount = {{ high_count | default(0) | tojson }};
+    const moderateCount = {{ moderate_count | default(0) | tojson }};
+    const lowCount = {{ low_count | default(0) | tojson }};
+
+    const groupLabels = [
+        "Highly Active",
+        "Moderately Active",
+        "Low Activity"
+    ];
+
+    const groupCounts = [
+        highCount,
+        moderateCount,
+        lowCount
+    ];
+
+    const groupColors = [
+        "#6d4aff",
+        "#efa72e",
+        "#e56868"
+    ];
+
+    // Doughnut chart
+    new Chart(document.getElementById("engagementDoughnut"), {
+        type: "doughnut",
+        data: {
+            labels: groupLabels,
+            datasets: [{
+                data: groupCounts,
+                backgroundColor: groupColors,
+                borderColor: "#ffffff",
+                borderWidth: 3,
+                hoverOffset: 8
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            cutout: "62%",
+            plugins: {
+                legend: {
+                    position: "bottom",
+                    labels: {
+                        padding: 18,
+                        usePointStyle: true
+                    }
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return context.label + ": " +
+                                Number(context.raw).toLocaleString() + " students";
+                        }
+                    }
+                }
+            }
+        }
+    });
+
+    // Bar chart
+    new Chart(document.getElementById("engagementBar"), {
+        type: "bar",
+        data: {
+            labels: groupLabels,
+            datasets: [{
+                label: "Number of Students",
+                data: groupCounts,
+                backgroundColor: groupColors,
+                borderRadius: 8,
+                maxBarThickness: 65
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return Number(context.raw).toLocaleString() +
+                                " students";
+                        }
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        precision: 0
+                    },
+                    title: {
+                        display: true,
+                        text: "Number of Students"
+                    }
+                },
+                x: {
+                    ticks: {
+                        maxRotation: 0
+                    }
+                }
+            }
+        }
+    });
+</script>
+
+</body>
+</html>

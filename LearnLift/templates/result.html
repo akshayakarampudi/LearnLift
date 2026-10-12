@@ -1,0 +1,325 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Prediction Result | LearnLift</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<!-- ================= NAVBAR ================= -->
+
+<nav class="navbar">
+
+    <div class="nav-logo">
+        🎓 <span>LearnLift</span>
+    </div>
+
+    <div class="nav-links">
+        <a href="{{ url_for('home') }}">Home</a>
+        <a href="/dashboard">Dashboard</a>
+        <a href="{{ url_for('prediction_page') }}">Prediction</a>
+        <a href="/behaviour">Behaviour</a>
+        <a href="{{ url_for('model_page') }}">Model</a>
+        <a href="{{ url_for('about') }}">About</a>
+    </div>
+
+</nav>
+
+
+<!-- ================= RESULT HEADER ================= -->
+
+<main class="result-container">
+
+    <div class="result-header">
+
+        <div class="result-icon">
+            ✨
+        </div>
+
+        <div>
+            <h1>Student Prediction Result</h1>
+
+            <p>
+                LearnLift analyzed the student's academic and
+                online learning information.
+            </p>
+        </div>
+
+    </div>
+
+
+    <!-- ================= SUMMARY ================= -->
+
+    <section class="result-summary">
+
+        <div class="result-card">
+
+            <div class="result-card-icon">
+                🎯
+            </div>
+
+            <div class="result-card-content">
+                <h3>Predicted Performance</h3>
+
+                <div class="result-main-value">
+                    {{ prediction }}
+                </div>
+
+                <p>
+                    Predicted student academic outcome
+                </p>
+            </div>
+
+        </div>
+
+
+        <div class="result-card">
+
+            <div class="result-card-icon">
+                📊
+            </div>
+
+            <div class="result-card-content">
+                <h3>Prediction Confidence</h3>
+
+                <div class="result-main-value">
+                    {{ confidence }}%
+                </div>
+
+                <p>
+                    Confidence of the Random Forest model
+                </p>
+            </div>
+
+        </div>
+
+
+        <div class="result-card">
+
+            <div class="result-card-icon">
+                🛡️
+            </div>
+
+            <div class="result-card-content">
+                <h3>Dropout Risk</h3>
+
+                <div class="result-main-value
+                    {% if dropout_risk == 'High' %}
+                        risk-high
+                    {% elif dropout_risk == 'Medium' %}
+                        risk-medium
+                    {% else %}
+                        risk-low
+                    {% endif %}">
+
+                    {{ dropout_risk }}
+
+                </div>
+
+                <p>
+                    Based on predicted final result
+                </p>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= PROBABILITY ================= -->
+
+    <section class="student-analysis-card">
+
+        <div class="section-title">
+
+            <div>
+                <span class="small-label">MODEL ANALYSIS</span>
+
+                <h2>Student Prediction Probability</h2>
+
+                <p>
+                    Probability distribution generated for this student's prediction.
+                </p>
+            </div>
+
+        </div>
+
+
+        <div class="probability-chart">
+
+            <!-- Distinction -->
+
+            <div class="probability-row">
+
+                <div class="probability-top">
+
+                    <span>🏆 Distinction</span>
+
+                    <strong>
+                        {{ distinction_probability }}%
+                    </strong>
+
+                </div>
+
+                <div class="probability-bar">
+
+                    <div class="probability-fill distinction"
+                         style="width: {{ distinction_probability }}%;">
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Fail -->
+
+            <div class="probability-row">
+
+                <div class="probability-top">
+
+                    <span>📉 Fail</span>
+
+                    <strong>
+                        {{ fail_probability }}%
+                    </strong>
+
+                </div>
+
+                <div class="probability-bar">
+
+                    <div class="probability-fill fail"
+                         style="width: {{ fail_probability }}%;">
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Pass -->
+
+            <div class="probability-row">
+
+                <div class="probability-top">
+
+                    <span>✅ Pass</span>
+
+                    <strong>
+                        {{ pass_probability }}%
+                    </strong>
+
+                </div>
+
+                <div class="probability-bar">
+
+                    <div class="probability-fill pass"
+                         style="width: {{ pass_probability }}%;">
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Withdrawn -->
+
+            <div class="probability-row">
+
+                <div class="probability-top">
+
+                    <span>⚠️ Withdrawn</span>
+
+                    <strong>
+                        {{ withdrawn_probability }}%
+                    </strong>
+
+                </div>
+
+                <div class="probability-bar">
+
+                    <div class="probability-fill withdrawn"
+                         style="width: {{ withdrawn_probability }}%;">
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="chart-note">
+
+            💡 <strong>How to read:</strong>
+            The higher the percentage, the more likely the model
+            considers that outcome for the tested student.
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= EXPLANATION ================= -->
+
+    <section class="explanation-card">
+
+        <div class="explanation-icon">
+            🤖
+        </div>
+
+        <div>
+
+            <h2>Prediction Explanation</h2>
+
+            <p>
+                The model predicts that this student is likely to
+                successfully <strong>{{ prediction }}</strong>
+                the course.
+                The prediction is based on the student's assessment
+                performance and online learning activity.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= ACTION BUTTONS ================= -->
+
+    <div class="result-actions">
+
+        <a href="{{ url_for('prediction_page') }}"
+           class="result-btn primary">
+            🔄 Test Another Student
+        </a>
+
+        <a href="{{ url_for('home') }}"
+           class="result-btn secondary">
+            🏠 Back to Home
+        </a>
+
+    </div>
+
+</main>
+
+
+<!-- ================= FOOTER ================= -->
+
+<footer class="result-footer">
+
+    <p>
+        LearnLift — AI-Based Student Performance and Dropout Prediction System
+    </p>
+
+</footer>
+
+
+</body>
+</html>

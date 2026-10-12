@@ -1,0 +1,18 @@
+{
+    "clusters": {
+        "1": "Low Activity Learner",
+        "2": "Moderate Activity Learner",
+        "0": "Highly Active Learner"
+    },
+    "cluster_counts": {
+        "Moderate Activity Learner": 13906,
+        "Highly Active Learner": 9037,
+        "Low Activity Learner": 5842
+    },
+    "features": [
+        "assessment_avg_score",
+        "assessment_count",
+        "total_clicks",
+        "active_days"
+    ]
+}

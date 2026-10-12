@@ -1,0 +1,423 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LearnLift | Student Analytics Dashboard</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f5f7fc;
+            color: #182344;
+        }
+
+        .dashboard-page {
+            min-height: 100vh;
+            padding: 35px 5%;
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 18px;
+            margin-bottom: 28px;
+        }
+
+        .dashboard-header h1 {
+            margin: 0 0 10px;
+            font-size: 30px;
+        }
+
+        .dashboard-header p {
+            margin: 0;
+            color: #68738a;
+            line-height: 1.6;
+        }
+
+        .dashboard-link {
+            display: inline-block;
+            padding: 12px 18px;
+            background: #5145e5;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: background 0.2s;
+        }
+
+        .dashboard-link:hover {
+            background: #3930b8;
+        }
+
+        /* STATISTICS */
+
+        .dashboard-stats {
+            display: grid;
+            grid-template-columns: repeat(5, minmax(0, 1fr));
+            gap: 16px;
+            margin-bottom: 28px;
+        }
+
+        .dashboard-card {
+            background: white;
+            border: 1px solid #e5e9f3;
+            border-radius: 13px;
+            padding: 22px 18px;
+            box-shadow: 0 4px 15px rgba(30, 45, 90, 0.05);
+            min-width: 0;
+        }
+
+        .dashboard-card p {
+            color: #69758b;
+            margin: 0 0 13px;
+            font-size: 14px;
+        }
+
+        .dashboard-card h2 {
+            margin: 0;
+            font-size: 27px;
+            overflow-wrap: anywhere;
+        }
+
+        .purple { color: #5145e5; }
+        .green { color: #169b62; }
+        .blue { color: #2877d4; }
+        .red { color: #d64545; }
+        .orange { color: #d88420; }
+
+        /* CHARTS */
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 22px;
+            margin-bottom: 25px;
+        }
+
+        .chart-card {
+            background: white;
+            border: 1px solid #e5e9f3;
+            border-radius: 13px;
+            padding: 24px;
+            box-shadow: 0 4px 15px rgba(30, 45, 90, 0.05);
+            min-width: 0;
+        }
+
+        .chart-card h2 {
+            font-size: 20px;
+            margin: 0 0 10px;
+        }
+
+        .chart-card h3 {
+            margin-top: 22px;
+            margin-bottom: 8px;
+        }
+
+        .chart-card p {
+            color: #69758b;
+            font-size: 14px;
+            line-height: 1.7;
+            margin: 0 0 18px;
+        }
+
+        .accuracy-value {
+            font-size: 34px !important;
+            margin: 18px 0 5px !important;
+            color: #5145e5;
+        }
+
+        .chart-image {
+            display: block;
+            width: 100%;
+            height: auto;
+            max-height: 390px;
+            object-fit: contain;
+            margin: 10px auto 0;
+        }
+
+        .chart-note {
+            font-size: 12px !important;
+            color: #7b8497 !important;
+        }
+
+        /* ABOUT */
+
+        .dashboard-about {
+            background: white;
+            border: 1px solid #e5e9f3;
+            border-radius: 13px;
+            padding: 26px;
+            line-height: 1.8;
+            box-shadow: 0 4px 15px rgba(30, 45, 90, 0.04);
+        }
+
+        .dashboard-about h2 {
+            margin-top: 0;
+        }
+
+        .dashboard-about p {
+            color: #68738a;
+        }
+
+        .dashboard-footer {
+            text-align: center;
+            color: #68738a;
+            font-size: 13px;
+            padding: 25px 10px 5px;
+            line-height: 1.7;
+        }
+
+        @media (max-width: 1100px) {
+            .dashboard-stats {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 750px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .dashboard-page {
+                padding: 24px 4%;
+            }
+
+            .dashboard-header h1 {
+                font-size: 25px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .dashboard-stats {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 10px;
+            }
+
+            .dashboard-card {
+                padding: 17px 13px;
+            }
+
+            .dashboard-card h2 {
+                font-size: 23px;
+            }
+
+            .chart-card {
+                padding: 18px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- NAVIGATION -->
+
+<nav class="navbar">
+    <div class="nav-logo">LearnLift</div>
+
+    <div class="nav-links">
+        <a href="{{ url_for('home') }}">Home</a>
+        <a href="{{ url_for('dashboard') }}" class="active">Dashboard</a>
+        <a href="{{ url_for('prediction_page') }}">Prediction</a>
+        <a href="{{ url_for('behaviour') }}">Behaviour</a>
+        <a href="{{ url_for('model_page') }}">Model</a>
+        <a href="{{ url_for('about') }}">About</a>
+    </div>
+</nav>
+
+<main class="dashboard-page">
+
+    <!-- HEADER -->
+
+    <header class="dashboard-header">
+        <div>
+            <h1>Student Analytics Dashboard</h1>
+            <p>
+                Explore student outcomes and machine learning performance.
+            </p>
+        </div>
+
+        <a class="dashboard-link"
+           href="{{ url_for('prediction_page') }}">
+            + New Prediction
+        </a>
+    </header>
+
+    <!-- STUDENT STATISTICS -->
+
+    <section class="dashboard-stats">
+
+        <div class="dashboard-card">
+            <p>Total Students</p>
+            <h2 class="purple">
+                {{ "{:,}".format(total_students|default(32593, true)|int) }}
+            </h2>
+        </div>
+
+        <div class="dashboard-card">
+            <p>Pass</p>
+            <h2 class="green">
+                {{ "{:,}".format(pass_count|default(12361, true)|int) }}
+            </h2>
+        </div>
+
+        <div class="dashboard-card">
+            <p>Distinction</p>
+            <h2 class="blue">
+                {{ "{:,}".format(distinction_count|default(3024, true)|int) }}
+            </h2>
+        </div>
+
+        <div class="dashboard-card">
+            <p>Fail</p>
+            <h2 class="red">
+                {{ "{:,}".format(fail_count|default(7052, true)|int) }}
+            </h2>
+        </div>
+
+        <div class="dashboard-card">
+            <p>Withdrawn</p>
+            <h2 class="orange">
+                {{ "{:,}".format(withdrawn_count|default(10156, true)|int) }}
+            </h2>
+        </div>
+
+    </section>
+
+    <!-- CHARTS -->
+
+    <section class="dashboard-grid">
+
+        <!-- RESULT DISTRIBUTION -->
+
+        <div class="chart-card">
+            <h2>Student Result Distribution</h2>
+            <p>
+                Distribution of the four final student outcomes.
+            </p>
+
+            <img class="chart-image"
+                 src="{{ url_for('static', filename='plots/result_distribution.png') }}"
+                 alt="Student final result distribution chart">
+
+        </div>
+
+        <!-- MODEL ACCURACY -->
+
+        <div class="chart-card">
+            <h2>Model Accuracy</h2>
+            <p>
+                Random Forest classification test performance.
+            </p>
+
+            {% if metrics is defined and metrics and metrics.get('accuracy') is not none %}
+                {% set raw_accuracy = metrics.get('accuracy')|float %}
+
+                {% if raw_accuracy > 1 %}
+                    {% set accuracy_percent = raw_accuracy %}
+                {% else %}
+                    {% set accuracy_percent = raw_accuracy * 100 %}
+                {% endif %}
+            {% else %}
+                {% set accuracy_percent = 69.04 %}
+            {% endif %}
+
+            <h2 class="accuracy-value">
+                {{ "%.2f"|format(accuracy_percent) }}%
+            </h2>
+
+            <p class="chart-note">Test accuracy</p>
+
+            <img class="chart-image"
+                 src="{{ url_for('static', filename='plots/model_accuracy.png') }}"
+                 alt="Random Forest model accuracy chart">
+
+        </div>
+
+        <!-- CONFUSION MATRIX -->
+
+        <div class="chart-card">
+            <h2>Confusion Matrix</h2>
+            <p>
+                Comparison of actual and predicted student outcomes.
+            </p>
+
+            <img class="chart-image"
+                 src="{{ url_for('static', filename='plots/confusion_matrix.png') }}"
+                 alt="Confusion matrix for student result predictions">
+
+        </div>
+
+        <!-- MODEL INFORMATION -->
+
+        <div class="chart-card">
+            <h2>About the Model</h2>
+
+            <p>
+                LearnLift uses a Random Forest classifier trained
+                on OULAD data.
+            </p>
+
+            <h3>Four predicted outcomes</h3>
+
+            <p>
+                Distinction · Pass · Fail · Withdrawn
+            </p>
+
+            <h3>Model evaluation</h3>
+
+            <p>
+                Accuracy measures the percentage of test records
+                predicted correctly. The confusion matrix shows
+                how actual and predicted outcomes compare.
+            </p>
+
+            <a class="dashboard-link"
+               href="{{ url_for('model_page') }}">
+                Explore Model Details
+            </a>
+        </div>
+
+    </section>
+
+    <!-- DASHBOARD INFORMATION -->
+
+    <section class="dashboard-about">
+        <h2>About the Dashboard</h2>
+
+        <p>
+            This dashboard summarizes student outcomes from the
+            Open University Learning Analytics Dataset (OULAD).
+            LearnLift uses assessment results and online learning
+            activity to predict a student's final course result.
+        </p>
+
+        <p>
+            The charts and evaluation metrics help explain the
+            dataset and assess the model's performance on test data.
+        </p>
+    </section>
+
+    <!-- FOOTER -->
+
+    <footer class="dashboard-footer">
+        LearnLift — AI-Based Student Performance and
+        Dropout Prediction System
+    </footer>
+
+</main>
+
+</body>
+</html>

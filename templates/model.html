@@ -1,0 +1,137 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Model Performance | LearnLift</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6fb;
+            color: #243047;
+        }
+        nav {
+            background: #30245c;
+            padding: 18px 6%;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .container {
+            max-width: 1100px;
+            margin: 35px auto;
+            padding: 20px;
+        }
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 14px;
+            margin-bottom: 22px;
+            box-shadow: 0 4px 15px #0000000d;
+        }
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+            gap: 18px;
+        }
+        .stat {
+            background: white;
+            padding: 22px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px #0000000d;
+        }
+        .stat h3 {
+            margin: 0 0 12px;
+            color: #6350b5;
+            font-size: 16px;
+        }
+        .value {
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .chart {
+            width: 100%;
+            max-width: 650px;
+            display: block;
+            margin: 15px auto;
+        }
+        footer {
+            text-align: center;
+            padding: 22px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <a href="{{ url_for('home') }}">Home</a>
+    <a href="{{ url_for('dashboard') }}">Dashboard</a>
+    <a href="{{ url_for('prediction_page') }}">Prediction</a>
+    <a href="{{ url_for('behaviour') }}">Behaviour</a>
+    <a href="{{ url_for('model_page') }}">Model</a>
+    <a href="{{ url_for('about') }}">About</a>
+</nav>
+
+<div class="container">
+    <h1>🤖 Model Performance</h1>
+    <p>LearnLift uses a Random Forest Classifier to predict student academic outcomes.</p>
+
+    {% set raw_accuracy = metrics.get('accuracy', 0.6904) | float %}
+    {% if raw_accuracy > 1 %}
+        {% set accuracy_percent = raw_accuracy %}
+    {% else %}
+        {% set accuracy_percent = raw_accuracy * 100 %}
+    {% endif %}
+
+    <div class="stats">
+        <div class="stat">
+            <h3>Model Accuracy</h3>
+            <div class="value">{{ "%.2f"|format(accuracy_percent) }}%</div>
+        </div>
+
+        <div class="stat">
+            <h3>Algorithm</h3>
+            <div class="value">Random Forest</div>
+        </div>
+
+        <div class="stat">
+            <h3>Prediction Classes</h3>
+            <div class="value">4</div>
+            <p>Pass, Fail, Distinction, Withdrawn</p>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>📊 Model Accuracy</h2>
+        <p>Accuracy measures the proportion of test-set predictions that were correct.</p>
+        <img class="chart"
+             src="{{ url_for('static', filename='plots/model_accuracy.png') }}"
+             alt="Model accuracy chart">
+    </div>
+
+    <div class="card">
+        <h2>📈 Confusion Matrix</h2>
+        <p>This chart shows correct and incorrect predictions for each result class.</p>
+        <img class="chart"
+             src="{{ url_for('static', filename='plots/confusion_matrix.png') }}"
+             alt="Confusion matrix">
+    </div>
+
+    <div class="card">
+        <h2>About the Evaluation</h2>
+        <p>The model is evaluated using a test dataset. Accuracy alone does not describe every type of prediction error, so the confusion matrix and class-wise metrics are also useful.</p>
+    </div>
+</div>
+
+<footer>LearnLift | AI-Based Student Performance Prediction</footer>
+
+</body>
+</html>

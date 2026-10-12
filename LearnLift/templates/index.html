@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LearnLift | Early Support for Every Learner</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <style>
+    :root{--purple:#6946c6;--purple-dark:#4f32a6;--ink:#17213c;--muted:#5e6880;--line:#e6e1d8;--paper:#fff;--wash:#faf9f6;--blue:#eef6ff}
+    *{box-sizing:border-box}body{margin:0;background:#f6f4f0;color:var(--ink);font-family:Inter,Arial,sans-serif;line-height:1.55}
+    .ll-shell{max-width:1080px;margin:26px auto;padding:0 18px 28px}.ll-board{background:var(--paper);border:1px solid #e8e2d8;border-radius:15px;overflow:hidden;box-shadow:0 8px 32px rgba(30,24,55,.05);border-left:4px solid var(--purple)}
+    .ll-header{display:flex;align-items:center;gap:13px;padding:22px 24px 12px}.ll-mark{width:42px;height:42px;display:grid;place-items:center;background:var(--purple);color:#fff;border-radius:10px;font-weight:800;font-size:20px}.ll-kicker{font-size:10px;letter-spacing:1.7px;color:#7a6b9d;text-transform:uppercase;margin:0 0 1px}.ll-header h1{font-size:23px;line-height:1.2;margin:0;font-weight:750}.ll-tags{font-size:11px;letter-spacing:1px;color:#756c8b;margin-top:5px}.ll-tagline{font-size:16px;margin:0 24px 16px;color:#252b42;font-weight:550}
+    .ll-content{padding:0 24px 24px}.ll-two{display:grid;grid-template-columns:1fr 1fr;gap:14px}.ll-panel{border:1px solid var(--line);border-radius:9px;background:var(--wash);padding:15px 16px}.ll-panel.blue{background:#f4f8fd;border-color:#d6e3f3}.ll-label{font-size:10px;letter-spacing:1.1px;text-transform:uppercase;color:var(--purple);font-weight:700;margin:0 0 6px}.ll-panel.blue .ll-label{color:#1b4b88}.ll-panel p{font-family:Georgia,'Times New Roman',serif;font-size:14px;line-height:1.55;margin:0;color:#35405a}.ll-capabilities{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:11px}.ll-cap{border:1px solid var(--line);border-radius:8px;padding:10px 12px;background:#fbfaf8}.ll-cap small{display:block;font-size:9px;letter-spacing:1.2px;text-transform:uppercase;color:#7d69b6;margin-bottom:3px}.ll-cap strong{font-size:13px;font-weight:600}.ll-impact{font-size:13px;margin:12px 0 15px;color:#39435c}.ll-impact b{color:#242d45}.ll-challenge{border:1px solid #e2d8fa;background:#faf8ff;border-radius:9px;padding:13px 15px}.ll-challenge h3{font-size:13px;margin:0 0 5px}.ll-challenge ul{padding-left:18px;margin:0;color:#414b63;font-family:Georgia,'Times New Roman',serif;font-size:13px}.ll-challenge li{padding:2px 0}.ll-roadmap{margin-top:15px;border:1px solid var(--line);border-radius:10px;overflow:hidden}.ll-road-head{display:flex;justify-content:space-between;align-items:center;padding:12px 15px;background:#fbfaf8;border-bottom:1px solid var(--line)}.ll-road-head h3{font-size:13px;margin:0}.ll-road-head span{font-size:10px;color:#7c718e;letter-spacing:1px}.ll-roadmap details summary{cursor:pointer;list-style:none}.ll-roadmap details summary::-webkit-details-marker{display:none}.ll-week{display:grid;grid-template-columns:42px 1fr;gap:10px;padding:9px 14px;border-bottom:1px solid #eee9e1;font-family:Georgia,'Times New Roman',serif;font-size:12.5px;color:#3a4560}.ll-week:last-child{border-bottom:0}.ll-week strong{font-family:Arial,sans-serif;font-size:10px;color:#8065c1;letter-spacing:.5px;padding-top:2px}.ll-footer{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:15px 24px;border-top:1px dashed #e8e2d8;font-size:11px;color:#5c6479}.ll-footer b{color:#242b40}.ll-actions{display:flex;gap:8px;flex-wrap:wrap}.ll-btn{display:inline-block;background:var(--purple);color:white!important;padding:9px 13px;border-radius:7px;text-decoration:none;font:600 12px Arial,sans-serif}.ll-btn.secondary{background:white;color:var(--purple)!important;border:1px solid #d8cdef}
+    @media(max-width:650px){.ll-shell{margin:10px auto;padding:0 9px}.ll-header{padding:17px 15px 10px}.ll-tagline{margin:0 15px 14px;font-size:14px}.ll-content{padding:0 14px 17px}.ll-two,.ll-capabilities{grid-template-columns:1fr}.ll-footer{padding:14px 15px;align-items:flex-start;flex-direction:column}.ll-week{grid-template-columns:35px 1fr}.ll-panel p{font-size:13px}}
+  </style>
+</head>
+<body>
+  <main class="ll-shell">
+    <section class="ll-board">
+      <header class="ll-header">
+        <div class="ll-mark">L</div>
+        <div><p class="ll-kicker">Student analytics project</p><h1>LearnLift</h1><div class="ll-tags">EDTECH &nbsp;·&nbsp; MACHINE LEARNING</div></div>
+      </header>
+      <p class="ll-tagline">Spot learning challenges early. Turn student data into timely support.</p>
+      <div class="ll-content">
+        <div class="ll-two">
+          <article class="ll-panel"><h2 class="ll-label">The problem</h2><p>Online learning platforms collect assessment results and activity data, but it can be difficult to notice learners who are struggling. Finding warning signs sooner gives educators a chance to offer help before a student disengages.</p></article>
+          <article class="ll-panel blue"><h2 class="ll-label">The project — what it does</h2><p>LearnLift uses student profile, assessment and online activity features with a trained machine-learning model to predict an outcome category. A separate clustering workflow groups learners by activity patterns to support further analysis.</p></article>
+        </div>
+        <div class="ll-capabilities">
+          <div class="ll-cap"><small>Predict</small><strong>Student outcome category</strong></div>
+          <div class="ll-cap"><small>Identify</small><strong>Potential withdrawal / dropout concern</strong></div>
+          <div class="ll-cap"><small>Segment</small><strong>Learning-activity clusters</strong></div>
+          <div class="ll-cap"><small>Explore</small><strong>Model metrics and prediction probabilities</strong></div>
+        </div>
+        <p class="ll-impact"><b>Why it matters now.</b> Learning analytics can help educators make more informed, supportive decisions — with predictions treated as signals for help, not labels for students.</p>
+        <section class="ll-challenge"><h3>Project principles</h3><ul><li>Use assessment and activity patterns to support early attention.</li><li>Evaluate model performance and be transparent about prediction uncertainty.</li><li>Protect student privacy and avoid using predictions to stigmatise learners.</li></ul></section>
+        <section class="ll-roadmap">
+          <details open>
+            <summary class="ll-road-head"><h3>12-week development roadmap</h3><span>VIEW / HIDE</span></summary>
+            <div class="ll-week"><strong>W1</strong><div>Define prediction goals, inspect the OULAD dataset, and understand available student and course fields.</div></div>
+            <div class="ll-week"><strong>W2</strong><div>Clean and validate student profiles, assessment records and online learning activity.</div></div>
+            <div class="ll-week"><strong>W3</strong><div>Build features from assessment scores, previous attempts, study credits and click activity.</div></div>
+            <div class="ll-week"><strong>W4</strong><div>Train and evaluate a baseline student-outcome classification model.</div></div>
+            <div class="ll-week"><strong>W5</strong><div>Review preprocessing, class balance and model metrics; document limitations honestly.</div></div>
+            <div class="ll-week"><strong>W6</strong><div>Analyse important features and explain what may influence model predictions.</div></div>
+            <div class="ll-week"><strong>W7</strong><div>Compare model results and inspect errors across outcome categories.</div></div>
+            <div class="ll-week"><strong>W8</strong><div>Prepare learner activity features for clustering and behavioural analysis.</div></div>
+            <div class="ll-week"><strong>W9</strong><div>Interpret learning-activity clusters and check whether groups are useful and stable.</div></div>
+            <div class="ll-week"><strong>W10</strong><div>Test the full prediction workflow and validate inputs and outputs.</div></div>
+            <div class="ll-week"><strong>W11</strong><div>Package model files, improve the interface and document setup instructions.</div></div>
+            <div class="ll-week"><strong>W12</strong><div>Demonstrate the application, discuss privacy and fairness, and plan future early-warning features.</div></div>
+          </details>
+        </section>
+      </div>
+      <footer class="ll-footer"><div><b>LearnLift</b> · Student outcome prediction and activity clustering</div><div class="ll-actions"><a class="ll-btn" href="{{ url_for('prediction_page') }}">Try prediction →</a><a class="ll-btn secondary" href="{{ url_for('model_page') }}">View model</a><a class="ll-btn secondary" href="{{ url_for('about') }}">About project</a></div></footer>
+    </section>
+  </main>
+</body>
+</html>

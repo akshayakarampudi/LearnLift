@@ -1,0 +1,296 @@
+  <!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>LearnLift - Student Behaviour</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+
+<!-- ==========================================
+     NAVIGATION
+     ========================================== -->
+
+<nav>
+
+    <div class="logo">
+        🎓 LearnLift
+    </div>
+
+    <div class="nav-links">
+
+        <a href="/">Home</a>
+
+        <a href="/dashboard">Dashboard</a>
+
+        <a href="/prediction">Prediction</a>
+
+        <a href="/behaviour">Behaviour</a>
+
+        <a href="/model">Model</a>
+
+        <a href="/about">About</a>
+
+    </div>
+
+</nav>
+
+
+<!-- ==========================================
+     MAIN CONTAINER
+     ========================================== -->
+
+<div class="behaviour-container">
+
+
+    <!-- Header -->
+
+    <div class="behaviour-header">
+
+        <h1>
+            📊 Student Behaviour Analysis
+        </h1>
+
+        <p>
+            Student groups identified using academic
+            and online learning activity.
+        </p>
+
+    </div>
+
+
+    <!-- ==========================================
+         TOTAL STUDENTS
+         ========================================== -->
+
+    <div class="behaviour-total-card">
+
+        <h2>
+            Total Clustered Students
+        </h2>
+
+        <div class="behaviour-total-number">
+
+            {{ total_students }}
+
+        </div>
+
+        <p>
+            Students included in the behaviour analysis
+        </p>
+
+    </div>
+
+
+    <!-- ==========================================
+         CLUSTER CARDS
+         ========================================== -->
+
+    <div class="behaviour-grid">
+
+
+        <!-- Highly Active -->
+
+        <div class="behaviour-card">
+
+            <div class="behaviour-icon">
+                🟢
+            </div>
+
+            <h2>
+                Highly Active Learner
+            </h2>
+
+            <div class="behaviour-number">
+
+                {{ high_count }}
+
+            </div>
+
+            <p>
+                Students showing relatively high levels
+                of assessment and online learning activity.
+            </p>
+
+        </div>
+
+
+        <!-- Moderate -->
+
+        <div class="behaviour-card">
+
+            <div class="behaviour-icon">
+                🟡
+            </div>
+
+            <h2>
+                Moderate Activity Learner
+            </h2>
+
+            <div class="behaviour-number">
+
+                {{ moderate_count }}
+
+            </div>
+
+            <p>
+                Students showing moderate levels of
+                assessment and online learning activity.
+            </p>
+
+        </div>
+
+
+        <!-- Low -->
+
+        <div class="behaviour-card">
+
+            <div class="behaviour-icon">
+                🔵
+            </div>
+
+            <h2>
+                Low Activity Learner
+            </h2>
+
+            <div class="behaviour-number">
+
+                {{ low_count }}
+
+            </div>
+
+            <p>
+                Students showing relatively lower levels
+                of assessment and online learning activity.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- ==========================================
+         HOW CLUSTERING WORKS
+         ========================================== -->
+
+    <div class="behaviour-info">
+
+        <h2>
+            How Student Behaviour is Identified
+        </h2>
+
+        <p>
+            LearnLift uses K-Means clustering to group
+            students with similar learning activity
+            patterns.
+        </p>
+
+        <div class="feature-list">
+
+            <div>
+                <strong>Assessment Average Score</strong>
+                <span>Average assessment performance</span>
+            </div>
+
+            <div>
+                <strong>Assessment Count</strong>
+                <span>Number of recorded assessments</span>
+            </div>
+
+            <div>
+                <strong>Total Clicks</strong>
+                <span>Total online learning interactions</span>
+            </div>
+
+            <div>
+                <strong>Active Days</strong>
+                <span>Number of days with recorded activity</span>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ==========================================
+         INTERPRETATION
+         ========================================== -->
+
+    <div class="behaviour-info">
+
+        <h2>
+            Student Behaviour Groups
+        </h2>
+
+        <p>
+            The clustering model identifies three groups
+            based on similarities in the selected
+            academic and learning activity features.
+        </p>
+
+        <ul>
+
+            <li>
+                <strong>Highly Active Learners:</strong>
+                relatively higher learning activity.
+            </li>
+
+            <li>
+                <strong>Moderate Activity Learners:</strong>
+                intermediate learning activity.
+            </li>
+
+            <li>
+                <strong>Low Activity Learners:</strong>
+                relatively lower learning activity.
+            </li>
+
+        </ul>
+
+    </div>
+
+
+    <!-- ==========================================
+         MODEL INFORMATION
+         ========================================== -->
+
+    <div class="behaviour-info">
+
+        <h2>
+            Clustering Algorithm
+        </h2>
+
+        <p>
+            <strong>Algorithm:</strong> K-Means Clustering
+        </p>
+
+        <p>
+            <strong>Number of Groups:</strong> 3
+        </p>
+
+        <p>
+            The features are standardized before clustering
+            so that features with larger numerical values
+            do not dominate the clustering process.
+        </p>
+
+    </div>
+
+
+</div>
+
+
+</body>
+
+</html>

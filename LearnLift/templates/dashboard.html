@@ -1,0 +1,226 @@
+ <!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>LearnLift - Dashboard</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+<!-- Navigation -->
+
+<nav>
+
+    <div class="logo">
+        🎓 LearnLift
+    </div>
+
+    <div class="nav-links">
+
+        <a href="/">Home</a>
+
+        <a href="/dashboard">Dashboard</a>
+
+        <a href="/prediction">Prediction</a>
+
+        <a href="/model">Model</a>
+
+        <a href="/about">About</a>
+
+    </div>
+
+</nav>
+
+
+<!-- Dashboard -->
+
+<div class="dashboard-container">
+
+    <div class="dashboard-header">
+
+        <h1>
+            📊 Student Analytics Dashboard
+        </h1>
+
+        <p>
+            Overview of the OULAD student dataset
+        </p>
+
+    </div>
+
+
+    <!-- Statistics Cards -->
+
+    <div class="stats-grid">
+
+        <div class="stat-card">
+
+            <h3>
+                Total Students
+            </h3>
+
+            <div class="stat-number">
+                {{ total_students }}
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <h3>
+                Pass
+            </h3>
+
+            <div class="stat-number">
+                {{ pass_count }}
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <h3>
+                Distinction
+            </h3>
+
+            <div class="stat-number">
+                {{ distinction_count }}
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <h3>
+                Fail
+            </h3>
+
+            <div class="stat-number">
+                {{ fail_count }}
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <h3>
+                Withdrawn
+            </h3>
+
+            <div class="stat-number">
+                {{ withdrawn_count }}
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Result Distribution -->
+
+    <div class="dashboard-card">
+
+        <h2>
+            Student Result Distribution
+        </h2>
+
+        <img
+            src="{{ url_for(
+                'static',
+                filename='plots/result_distribution.png'
+            ) }}"
+            alt="Student Result Distribution"
+            class="dashboard-image"
+        >
+
+    </div>
+
+
+    <!-- Graphs -->
+
+    <div class="graph-grid">
+
+
+        <!-- Accuracy -->
+
+        <div class="dashboard-card">
+
+            <h2>
+                Model Accuracy
+            </h2>
+
+            <img
+                src="{{ url_for(
+                    'static',
+                    filename='plots/model_accuracy.png'
+                ) }}"
+                alt="Model Accuracy"
+                class="dashboard-image"
+            >
+
+        </div>
+
+
+        <!-- Confusion Matrix -->
+
+        <div class="dashboard-card">
+
+            <h2>
+                Confusion Matrix
+            </h2>
+
+            <img
+                src="{{ url_for(
+                    'static',
+                    filename='plots/confusion_matrix.png'
+                ) }}"
+                alt="Confusion Matrix"
+                class="dashboard-image"
+            >
+
+        </div>
+
+    </div>
+
+
+    <!-- Project Information -->
+
+    <div class="dashboard-card project-info">
+
+        <h2>
+            About the Dashboard
+        </h2>
+
+        <p>
+            This dashboard provides an overview of student
+            performance using the Open University Learning
+            Analytics Dataset (OULAD).
+        </p>
+
+        <p>
+            LearnLift uses academic assessment information
+            and online learning activity to predict the
+            student's final course result.
+        </p>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>
